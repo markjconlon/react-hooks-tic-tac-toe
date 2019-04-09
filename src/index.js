@@ -13,6 +13,8 @@ function Square({ value , onClick }) {
 function Board() {
   const [ squares, setSquares ] = useState(Array(9).fill(''));
   const [ xTurn , setTurn ] = useState(true);
+  const [ playerWins, setWins ] = useState({ playerX: 0, playerO: 0 });
+  const [ winState, setWinState ] = useState(false);
   function renderSquare(i) {
     return (
       <Square value={ squares[i] }
@@ -44,6 +46,26 @@ function Board() {
       squares[lines[0]] === squares[lines[2]] &&
       ["X", "O"].includes(squares[lines[0]]) )
       );
+
+    if (winner.length > 0 && !winState){
+      console.log("here");
+      console.log(playerWins);
+      console.log(winner);
+      if (squares[winner[0][0]] === "X"){
+        let newWins = playerWins;
+        console.log(newWins)
+        newWins.playerX += 1;
+        setWins(newWins);
+      } else if (squares[winner[0][0]] === "O") {
+        let newWins = playerWins;
+        newWins.playerO += 1;
+        setWins(newWins);
+      }
+      let newWinState = winState;
+      newWinState = true;
+      setWinState(newWinState);
+    }
+
     return winner.length > 0 ? `Winner is ${squares[winner[0][0]]}` : `Next player: ${xTurn ? 'X' : 'O'}`;
   }
 
@@ -66,6 +88,16 @@ function Board() {
         {renderSquare(6)}
         {renderSquare(7)}
         {renderSquare(8)}
+      </div>
+      <div>
+        <h5>Player X # of wins: {playerWins.playerX}</h5>
+        <h5>Player O # of wins: {playerWins.playerO}</h5>
+        <button onClick={() => {
+          let newSquares = Array(9).fill('');
+          setSquares(newSquares)
+          let newWinState = false;
+          setWinState(newWinState);
+        }}>Reset</button>
       </div>
     </div>
   );
