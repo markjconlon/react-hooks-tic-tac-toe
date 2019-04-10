@@ -96,6 +96,8 @@ function Board(moves, trackMoves) {
           setSquares(newSquares)
           let newWinState = false;
           setWinState(newWinState);
+          let newMoves = [];
+          trackMoves(newMoves);
         }}>Reset</button>
       </div>
     </div>
