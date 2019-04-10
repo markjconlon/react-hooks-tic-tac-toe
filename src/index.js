@@ -51,12 +51,8 @@ function Board(moves, trackMoves) {
       );
 
     if (winner.length > 0 && !winState){
-      console.log("here");
-      console.log(playerWins);
-      console.log(winner);
       if (squares[winner[0][0]] === "X"){
         let newWins = playerWins;
-        console.log(newWins)
         newWins.playerX += 1;
         setWins(newWins);
       } else if (squares[winner[0][0]] === "O") {
