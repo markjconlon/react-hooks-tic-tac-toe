@@ -10,7 +10,7 @@ function Square({ value , onClick }) {
   );
 }
 
-function Board() {
+function Board(moves, trackMoves) {
   const [ squares, setSquares ] = useState(Array(9).fill(''));
   const [ xTurn , setTurn ] = useState(true);
   const [ playerWins, setWins ] = useState({ playerX: 0, playerO: 0 });
@@ -23,7 +23,10 @@ function Board() {
           newSquares[i] = xTurn ? 'X' : 'O';
           let newTurn = !xTurn;
           setTurn(newTurn);
-          setSquares(newSquares) }
+          setSquares(newSquares);
+          let newMoves = [...moves];
+          newMoves.push(`Player ${xTurn ? "X" : "O"} played square ${i}`)
+          trackMoves(newMoves)}
         }
       />
     );
@@ -104,14 +107,16 @@ function Board() {
 }
 
 function Game() {
+  const [moves, trackMoves] = useState([]);
   return (
     <div className="game">
       <div className="game-board">
-        {Board()}
+        {Board(moves, trackMoves)}
       </div>
       <div className="game-info">
         <div>{/* status */}</div>
-        <ol>{/* TODO */}</ol>
+        <h3>Move List</h3>
+        <ol>{moves.map((m,index) => (<li key={index}>{m}</li>))}</ol>
       </div>
     </div>
   );
